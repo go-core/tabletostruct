@@ -1,0 +1,7 @@
+mysql:
+  addr: 118.25.79.84
+  port: 3306
+  user: root
+  passwd: 821026
+  db: shenlian
+  exclude: Ext,Created,CreatedTime,Updated,SealFlag,DR,TS
