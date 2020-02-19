@@ -1,7 +1,7 @@
 mysql:
-  addr: 数据库地址
-  port: 数据库端口
-  user: 数据库用户名
-  passwd: 密码
-  db: shenlian
+  addr: 192.168.0.110
+  port: 3306
+  user: root
+  passwd: 123456
+  db: yunlian-platform
   exclude: Ext,Created,CreatedTime,Updated,SealFlag,DR,TS

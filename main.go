@@ -13,6 +13,7 @@ import (
 	"github.com/atotto/clipboard"
 	"strings"
 	"tabletostruct/config"
+	"unicode"
 )
 
 //数据字段类型
@@ -40,7 +41,7 @@ func main() {
 	if len(str) == 0 {
 		cloumn_sql += fmt.Sprintf("select column_name columnName, data_type dataType, column_comment columnComment, column_key columnKey, extra from information_schema.columns where table_name = '%s'", t)
 	} else {
-		cloumn_sql += fmt.Sprintf("select column_name columnName, data_type dataType, column_comment columnComment, column_key columnKey, extra from information_schema.columns where table_name = '%s' and column_name not in(%s)", "BDArea", str)
+		cloumn_sql += fmt.Sprintf("select column_name columnName, data_type dataType, column_comment columnComment, column_key columnKey, extra from information_schema.columns where table_name = '%s' and column_name not in(%s)", t, str)
 	}
 	//获取所有字段
 	cloumns, err := config.DB.Query(cloumn_sql)
@@ -76,9 +77,10 @@ func main() {
 		} else {
 			struct_str += " libs.String "
 		}
-		struct_str += fmt.Sprintf("`db:\"%s\" json:\"%s\"` //%s \n", column.Columname, column.Columname, column.Columncomment)
+		struct_str += fmt.Sprintf("`db:\"%s\" json:\"%s\"` //%s \n", column.Columname, firstCharToLower(column.Columname), column.Columncomment)
 	}
 
+	struct_str += "    " + "storages.BaseItem\n"
 	struct_str += "}"
 
 	// 复制内容到剪切板
@@ -102,4 +104,17 @@ func getExcludeStr() string {
 	}
 
 	return excludeStr
+}
+
+//首字母小写
+func firstCharToLower(str string) string {
+	var n []rune
+	for i, ch := range str {
+		if i == 0 {
+			n = append(n, unicode.ToLower(ch))
+		} else {
+			n = append(n, ch)
+		}
+	}
+	return string(n)
 }
